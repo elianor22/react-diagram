@@ -119,7 +119,7 @@ const App = () => {
           }),
           data: { label: `Node ${id}` },
           origin: [0.5, 0.0],
-          type:'ractangle'
+          type: "ractangle",
         };
 
         setNodes((nds) => nds.concat(newNode));
@@ -202,12 +202,7 @@ const App = () => {
           </div>
         </Panel>
         <Controls />
-        <MiniMap
-          style={{
-            height: 100,
-            width: 100,
-          }}
-        />
+        <MiniMap />
         <EdgeText />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
