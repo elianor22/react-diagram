@@ -10,7 +10,7 @@ const Circle = ({ selected }) => {
         borderRadius: "100%",
       }}
     >
-      <DefaultComponent selected={selected} type="circle">
+      <DefaultComponent selected={selected} type="circle" showToolbar={false}>
         <div>circle</div>
       </DefaultComponent>
     </div>
