@@ -71,6 +71,7 @@ const App = () => {
             ...params,
             type: "smoothstep",
             ...defaultMarker,
+            label: "default arrow",
           },
           els
         )
