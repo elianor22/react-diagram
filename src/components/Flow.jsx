@@ -15,10 +15,12 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 import Ractangle from "./Shapes/Ractangle/Ractangle";
-import { defaultMarker } from "./Core/utils/defaultMarker";
+import { defaultMarker } from "./core/utils/defaultMarker";
 import Circle from "./Shapes/Circle/Circle";
-import EdgeLine from "./Core/Edge/EdgeLine";
+import EdgeLine from "./core/Edge/EdgeLine";
 import Menu from "./Panel/Menu/Menu";
+import { getLastNodeId } from "./core/utils/getLastNodeId";
+import { createShape } from "./core/utils/createShape";
 
 const nodeTypes = {
   ractangle: Ractangle,
@@ -29,35 +31,33 @@ const edgeTypes = {
 };
 
 const initialNodes = [
-  {
-    id: "1",
-    position: { x: 0, y: 0 },
-    data: { label: "1" },
-    label: "custom",
-    // type: "line",
-  },
-  {
-    id: "2",
-    position: { x: 300, y: 0 },
-    data: { label: "Node 2", resizable: true },
-    type: "ractangle",
-    style: { width: 180, height: 66 },
-  },
-  {
-    id: "3",
-    position: { x: 300, y: 100 },
-    data: { label: "Node 2", resizable: true },
-    type: "circle",
-    style: { width: 66, height: 66 },
-  },
-  { id: "4", position: { x: 0, y: 200 }, data: { label: "4" } },
+  // {
+  //   id: "1",
+  //   position: { x: 0, y: 0 },
+  //   data: { label: "1" },
+  //   label: "custom",
+  // },
+  // {
+  //   id: "2",
+  //   position: { x: 300, y: 0 },
+  //   data: { label: "Node 2", resizable: true },
+  //   type: "ractangle",
+  //   style: { width: 180, height: 66 },
+  // },
+  // {
+  //   id: "3",
+  //   position: { x: 300, y: 100 },
+  //   data: { label: "Node 2", resizable: true },
+  //   type: "circle",
+  //   style: { width: 66, height: 66 },
+  // },
+  // { id: "4", position: { x: 0, y: 200 }, data: { label: "4" } },
 ];
 const initialEdges = [];
 
 let id = 1;
 const getId = () => `e-${id++}`;
 const App = () => {
-  // eslint-disable-next-line no-unused-vars
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const edgeUpdateSuccessful = useRef(true);
@@ -84,7 +84,6 @@ const App = () => {
     [setEdges]
   );
 
-  // const edgeUpdateSuccessful = useRef(true);
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
   }, []);
@@ -111,32 +110,24 @@ const App = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
+      const lastId = getLastNodeId(nodes);
       const type = event.dataTransfer.getData("application/reactflow");
 
-      // check if the dropped element is valid
       if (typeof type === "undefined" || !type) {
         return;
       }
 
-      // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-      const newNode = {
-        id: getId(),
-        type,
-        position,
-        data: { label: `${type} node` },
-      };
+      const newNode = createShape(lastId, type, position);
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [screenToFlowPosition, setNodes]
+    [screenToFlowPosition, setNodes, nodes]
   );
+
   return (
     <div className="dndflow" style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow

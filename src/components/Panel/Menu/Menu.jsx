@@ -1,4 +1,4 @@
-import { edgesTypes } from "../../Core/utils/edgeTypes";
+import { edgesTypes } from "../../core/utils/edgeTypes";
 
 const Menu = () => {
   const onDragStart = (event, nodeType) => {
@@ -19,7 +19,7 @@ const Menu = () => {
       <div className="description">Just Drag n Drop</div>
       <div
         className="dndnode input"
-        onDragStart={(event) => onDragStart(event, edgesTypes.ractagle)}
+        onDragStart={(event) => onDragStart(event, edgesTypes.ractangle)}
         draggable
       >
         Ractangle

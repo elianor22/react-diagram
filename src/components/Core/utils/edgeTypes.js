@@ -1,4 +1,4 @@
 export const edgesTypes = {
-  ractagle: "ractangle",
+  ractangle: "ractangle",
   circle: "circle",
 };

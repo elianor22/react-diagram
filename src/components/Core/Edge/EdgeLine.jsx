@@ -3,6 +3,7 @@ import {
   BaseEdge,
   getSmoothStepPath,
   useReactFlow,
+  Panel,
 } from "reactflow";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -38,8 +39,6 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
           style={{
             position: "absolute",
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            padding: 10,
-            borderRadius: 5,
             fontSize: 12,
             fontWeight: 700,
           }}
@@ -47,20 +46,26 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
         >
           {selected ? (
             <>
-              <input
-                value={newLabel} // Menggunakan nilai label baru dari state
-                onChange={handleChangeLabel}
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.code === "Enter") {
-                    e.preventDefault();
-                    handleSaveLabel();
-                  }
-
-                  handleChangeLabel(e);
+              <Panel
+                style={{
+                  margin: 0,
                 }}
-                onBlur={handleSaveLabel}
-              />
+              >
+                <input
+                  value={newLabel} // Menggunakan nilai label baru dari state
+                  onChange={handleChangeLabel}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.code === "Enter") {
+                      e.preventDefault();
+                      handleSaveLabel();
+                    }
+
+                    handleChangeLabel(e);
+                  }}
+                  onBlur={handleSaveLabel}
+                />
+              </Panel>
             </>
           ) : (
             data.label

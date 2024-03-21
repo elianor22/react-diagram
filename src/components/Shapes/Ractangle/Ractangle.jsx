@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import DefaultComponent from "../../Core/Component/DefaultComponent";
+import DefaultComponent from "../../core/Component/DefaultComponent";
 import { useReactFlow } from "reactflow";
 import InputField from "../../Form/Input/InputField";
 import { useState } from "react";
@@ -67,11 +67,13 @@ const Ractangle = (rest) => {
             </div>
           ) : (
             <>
-              <div
-                onClick={() => setClickEdit(false)}
-                className="panel_input"
-              ></div>
-              <InputField onChange={updateChange} value={data.label} />
+              <InputField
+                onChange={updateChange}
+                value={data.label}
+                onClose={() => {
+                  setClickEdit(false);
+                }}
+              />
             </>
           )}
         </div>

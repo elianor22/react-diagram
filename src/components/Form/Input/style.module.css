@@ -7,3 +7,20 @@
     position: relative;
     resize: none;
 }
+
+.input__field:focus {
+    outline: none;
+    border: 1px dashed rgb(201, 202, 202);
+
+
+}
+
+.panel_input {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    transform: scale(999);
+
+}

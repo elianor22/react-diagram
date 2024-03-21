@@ -1,4 +1,4 @@
-import ResizeableNode from "../../Core/Resizer/ResizeNode";
+import ResizeableNode from "../../core/Resizer/ResizeNode";
 import PropTypes from "prop-types";
 import Edge from "../Edge/Edge";
 import Toolbar from "../Toolbar/Toolbar";
@@ -9,6 +9,9 @@ const DefaultComponent = ({
   showToolbar,
   isResizeable,
   type,
+  onResizeEnd,
+  minHeight,
+  minWidth,
 }) => {
   return (
     <>
@@ -21,7 +24,13 @@ const DefaultComponent = ({
           }}
         >
           {isResizeable && (
-            <ResizeableNode selected={selected} type={type}>
+            <ResizeableNode
+              selected={selected}
+              type={type}
+              onResizeEnd={onResizeEnd}
+              minHeight={minWidth}
+              minWidth={minHeight}
+            >
               {children}
             </ResizeableNode>
           )}
@@ -41,6 +50,9 @@ DefaultComponent.propTypes = {
   showToolbar: PropTypes.bool,
   isResizeable: PropTypes.bool,
   type: PropTypes.string,
+  onResizeEnd: PropTypes.func,
+  minHeight: PropTypes.number,
+  minWidth: PropTypes.number,
 };
 
 export default DefaultComponent;

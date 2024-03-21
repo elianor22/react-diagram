@@ -4,7 +4,15 @@ import PropTypes from "prop-types";
 import styles from "./style.module.css";
 import { memo } from "react";
 
-const ResizeNode = ({ selected, children, type }) => {
+const ResizeNode = ({
+  selected,
+  children,
+  type,
+  onResizeEnd,
+  minHeight,
+  minWidth,
+  style,
+}) => {
   return (
     <>
       <div
@@ -15,11 +23,12 @@ const ResizeNode = ({ selected, children, type }) => {
       >
         <NodeResizer
           isVisible={selected}
-          minWidth={type === "circle" ? 66 : 180}
-          minHeight={type === "circle" ? 66 : 66}
+          minWidth={minWidth}
+          minHeight={minHeight}
           handleStyle={{
-            backgroundColor: "purple",
+            ...style,
           }}
+          onResizeEnd={onResizeEnd}
         />
         {children}
       </div>
@@ -27,10 +36,18 @@ const ResizeNode = ({ selected, children, type }) => {
   );
 };
 
+ResizeNode.defaultProps = {
+  minWidth: 180,
+  minHeight: 66,
+};
+
 ResizeNode.propTypes = {
   children: PropTypes.element,
   selected: PropTypes.bool,
   type: PropTypes.string,
+  onResizeEnd: PropTypes.func,
+  minHeight: PropTypes.number,
+  minWidth: PropTypes.number,
 };
 
 const ResizeableNode = memo(ResizeNode);
