@@ -1,0 +1,68 @@
+.react-flow__controls {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+p {
+    color: #000;
+}
+
+
+
+.app__flow {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.app__flow aside {
+    border-right: 1px solid #eee;
+    padding: 15px 10px;
+    font-size: 12px;
+    background: #fcfcfc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.app__flow aside .description {
+    margin-bottom: 10px;
+}
+
+.app__flow .app__flow__node {
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+
+.app__flow .reactflow-wrapper {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.app__flow .selectall {
+    margin-top: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .app__flow {
+        flex-direction: row;
+    }
+
+    .app__flow aside {
+        width: 20%;
+        max-width: 250px;
+    }
+}
+
+.label_line {
+    background-color: white;
+}
