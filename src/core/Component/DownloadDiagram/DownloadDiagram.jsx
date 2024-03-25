@@ -1,12 +1,17 @@
-import { Panel, useReactFlow, getNodesBounds, getViewportForBounds } from 'reactflow';
-import { toPng } from 'html-to-image';
+import { useReactFlow, getNodesBounds, getViewportForBounds } from "reactflow";
+import { toJpeg} from "html-to-image";
 
 function downloadImage(dataUrl) {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
 
-  a.setAttribute('download', 'Diagram.png');
-  a.setAttribute('href', dataUrl);
+  a.setAttribute("download", "Diagram.jpeg");
+  a.setAttribute("href", dataUrl);
   a.click();
+  
+  const nodeDot = document.querySelectorAll(".react-flow__handle");
+  nodeDot.forEach((node) => {
+    node.classList.remove("hide");
+  });
 }
 
 const imageWidth = 1024;
@@ -15,14 +20,22 @@ const imageHeight = 768;
 function DownloadDiagram() {
   const { getNodes } = useReactFlow();
   const onClick = () => {
-    // we calculate a transform for the nodes so that all nodes are visible
-    // we then overwrite the transform of the `.react-flow__viewport` element
-    // with the style option of the html-to-image library
-    const nodesBounds = getNodesBounds(getNodes());
-    const transform = getViewportForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2);
 
-    toPng(document.querySelector('.react-flow__viewport'), {
-    //   backgroundColor: '#1a365d',
+    const nodesBounds = getNodesBounds(getNodes());
+    const transform = getViewportForBounds(
+      nodesBounds,
+      imageWidth,
+      imageHeight,
+      0.5,
+      2
+    );
+
+    const nodeDot = document.querySelectorAll(".react-flow__handle");
+    nodeDot.forEach((node) => {
+      node.classList.add("hide");
+    });
+    toJpeg(document.querySelector(".react-flow__viewport"), {
+      backgroundColor: "#1a365d",
       width: imageWidth,
       height: imageHeight,
       style: {
@@ -34,9 +47,9 @@ function DownloadDiagram() {
   };
 
   return (
-      <button className="download-btn" onClick={onClick}>
-        Export to Image
-      </button>
+    <button className="download-btn" onClick={onClick}>
+      Export to Image
+    </button>
   );
 }
 

@@ -49,7 +49,7 @@ const App = ({ onClickSave }) => {
 
   const [nodes, setNodes, onNodesChange] = useNodesState(getNodes());
   const [edges, setEdges, onEdgesChange] = useEdgesState(getEdges());
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, getNode } = useReactFlow();
   const edgeUpdateSuccessful = useRef(true);
 
   const onConnect = useCallback(
@@ -57,7 +57,7 @@ const App = ({ onClickSave }) => {
       const { source, target, sourceHandle, targetHandle } = params;
       const sourceId = sourceHandle[0].toLowerCase();
       const targetId = targetHandle[0].toLowerCase();
-
+      const node = getNode(source);
       const id = `${sourceId}${source}-${targetId}${target}`;
       setEdges((els) =>
         addEdge(
@@ -65,16 +65,16 @@ const App = ({ onClickSave }) => {
             ...params,
             id,
             data: {
-              label: "",
+              label: node.data.shapeId === "diamond" ? "yes" : "",
             },
-            type: "line",
+            type: node.data.shapeId === "diamond" ? "line" : "smoothstep",
             ...defaultMarker,
           },
           els
         )
       );
     },
-    [setEdges]
+    [getNode, setEdges]
   );
 
   const onDragOver = useCallback((event) => {
@@ -172,7 +172,9 @@ const App = ({ onClickSave }) => {
         <Panel
           position="top-right"
           style={{
-            width: 200, display:'flex',gap:10
+            width: 200,
+            display: "flex",
+            gap: 10,
           }}
         >
           <DownloadDiagram />

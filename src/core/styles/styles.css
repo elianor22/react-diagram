@@ -66,3 +66,7 @@ p {
 .label_line {
     background-color: white;
 }
+
+.hide {
+    display: none
+}

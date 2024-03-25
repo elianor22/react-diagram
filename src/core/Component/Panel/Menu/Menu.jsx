@@ -10,7 +10,6 @@ const Menu = () => {
     event.dataTransfer.setData("application/reactflow", shapeString);
     event.dataTransfer.effectAllowed = "move";
   };
-
   return (
     <aside>
       <div className="description">Just Drag n Drop</div>
@@ -23,6 +22,7 @@ const Menu = () => {
               id: shape.id,
               type: shape.type,
               label: shape.label,
+              edgesPosition: shape.edgesPosition,
             })
           }
         />

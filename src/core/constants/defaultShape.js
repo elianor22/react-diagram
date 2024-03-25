@@ -37,8 +37,16 @@ export const defaultShapes = [
   {
     id: "start",
     type: "rounded",
-    label: "Rounded",
+    label: "Start",
     image: Start,
+    edgesPosition: ["bottom"],
+  },
+  {
+    id: "end",
+    type: "rounded",
+    label: "End",
+    image: End,
+    edgesPosition: ["top"],
   },
   {
     id: "diamond",
