@@ -27,34 +27,17 @@ const initialNodes = [
 ];
 const initialEdges = [];
 function App() {
-  
   const onChangeNodes = (nodes) => {
     console.log("from App", nodes);
   };
   return (
     <>
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            marginRight: 2,
-          }}
-        >
-          This Project is alpha version
-          <br />
-          <span>big features for the next update!</span>
-        </p>
-      </div>
       <Application
         initialEdges={initialEdges}
         initialNodes={initialNodes}
         initialShapes={initialShapes}
         onChangeNodes={onChangeNodes}
+        onClickSave={console.log}
       />
     </>
   );
