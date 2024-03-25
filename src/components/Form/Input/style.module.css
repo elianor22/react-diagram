@@ -1,9 +1,0 @@
-.input__field {
-    background-color: #fff;
-    color: #000;
-    width: 100%;
-    border: 1px dashed gray;
-    z-index: 9999;
-    position: relative;
-    resize: none;
-}
