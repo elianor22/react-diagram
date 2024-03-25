@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -6,11 +6,11 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
-  updateEdge,
   ReactFlowProvider,
   EdgeText,
   Panel,
   useReactFlow,
+  updateEdge,
 } from "reactflow";
 import PropTypes from "prop-types";
 
@@ -43,21 +43,35 @@ const edgeTypes = {
 };
 
 // eslint-disable-next-line react/prop-types
-const App = () => {
+const App = ({ onChangeEdges, onChangeNodes }) => {
   const { getNodes, getEdges } = useAppFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(getNodes());
   const [edges, setEdges, onEdgesChange] = useEdgesState(getEdges());
-  const edgeUpdateSuccessful = useRef(true);
   const { screenToFlowPosition } = useReactFlow();
+  const edgeUpdateSuccessful = useRef(true);
+  console.log(edges)
+
+  // useEffect(() => {
+  //   const isNodesDragging = nodes.some((node) => node.dragging === true);
+  //   if (!isNodesDragging) {
+  //     onChangeNodes(nodes);
+  //   }
+  //   onChangeEdges(edges);
+  // }, [nodes, onChangeNodes, edges, onChangeEdges]);
+
   const onConnect = useCallback(
     (params) => {
-      const { source, target } = params;
+      const { source, target, sourceHandle, targetHandle } = params;
+      const sourceId = sourceHandle[0].toLowerCase();
+      const targetId = targetHandle[0].toLowerCase();
+
+      const id = `${sourceId}${source}-${targetId}${target}`;
       setEdges((els) =>
         addEdge(
           {
             ...params,
-            id: `${source}-${target}`,
+            id,
             data: {
               label: "",
             },
@@ -71,29 +85,15 @@ const App = () => {
     [setEdges]
   );
 
-  const onEdgeUpdateStart = useCallback(() => {
-    edgeUpdateSuccessful.current = false;
-  }, []);
-
-  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
-    edgeUpdateSuccessful.current = true;
-    setEdges((els) => updateEdge(oldEdge, newConnection, els));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onEdgeUpdateEnd = useCallback((_, edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-    }
-
-    edgeUpdateSuccessful.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onNodeChanges = () => {
+    onChangeNodes(nodes);
+  };
 
   const onDrop = useCallback(
     (event) => {
@@ -115,14 +115,31 @@ const App = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [screenToFlowPosition, setNodes, nodes]
+    [nodes, screenToFlowPosition, setNodes]
   );
+  const onEdgeUpdateStart = useCallback(() => {
+    edgeUpdateSuccessful.current = false;
+  }, []);
+
+  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
+    console.log(newConnection);
+    edgeUpdateSuccessful.current = true;
+    setEdges((els) => updateEdge(oldEdge, newConnection, els));
+  }, []);
+
+  const onEdgeUpdateEnd = useCallback((_, edge) => {
+    if (!edgeUpdateSuccessful.current) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    }
+
+    console.log(edges);
+    edgeUpdateSuccessful.current = true;
+  }, []);
 
   const onNodeDragStop = useCallback(() => {
-    console.log("cahnged");
-    console.log(nodes);
-    console.log(edges);
-  }, [edges, nodes]);
+    // onNodeChanges();
+  }, [onNodeChanges]);
+
   return (
     <div className="app__flow" style={{ width: "100vw", height: "100vh" }}>
       <ReactFlow
@@ -159,7 +176,12 @@ const App = () => {
   );
 };
 
-const Application = ({ initialEdges, initialNodes, initialShapes }) => {
+const Application = ({
+  initialEdges,
+  initialNodes,
+  initialShapes,
+  onChangeNodes,
+}) => {
   const shapes = [...defaultShapes, ...initialShapes];
   return (
     <AppFlowProvider
@@ -168,12 +190,16 @@ const Application = ({ initialEdges, initialNodes, initialShapes }) => {
       initialNodes={initialNodes}
     >
       <ReactFlowProvider>
-        <App initialEdges={initialEdges} initialNodes={initialNodes} />
+        <App
+          initialEdges={initialEdges}
+          initialNodes={initialNodes}
+          onChangeNodes={onChangeNodes}
+        />
       </ReactFlowProvider>
     </AppFlowProvider>
   );
 };
-Application.propTypes ={
+Application.propTypes = {
   initialShapes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -192,5 +218,5 @@ Application.propTypes ={
       id: PropTypes.string.isRequired,
     }).isRequired
   ),
-}
+};
 export default Application;

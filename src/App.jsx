@@ -27,6 +27,10 @@ const initialNodes = [
 ];
 const initialEdges = [];
 function App() {
+  
+  const onChangeNodes = (nodes) => {
+    console.log("from App", nodes);
+  };
   return (
     <>
       <div
@@ -50,6 +54,7 @@ function App() {
         initialEdges={initialEdges}
         initialNodes={initialNodes}
         initialShapes={initialShapes}
+        onChangeNodes={onChangeNodes}
       />
     </>
   );

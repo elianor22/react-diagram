@@ -33,7 +33,7 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
   };
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge id={id} path={edgePath}markerEnd="animated" />
       <EdgeLabelRenderer>
         <div
           style={{

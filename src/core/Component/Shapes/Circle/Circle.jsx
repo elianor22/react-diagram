@@ -39,10 +39,10 @@ const Circle = (rest) => {
         return nd;
       })
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateChange = (e) => {
+  const updateChange = useCallback((e) => {
     const val = e.target.value;
     setNodes((nodes) =>
       nodes.map((node) => {
@@ -59,13 +59,13 @@ const Circle = (rest) => {
         return node;
       })
     );
-  };
-  const onResize = (_, sizes) => {
+  }, []);
+  const onResize = useCallback((_, sizes) => {
     setSizes({
       width: sizes.width,
       height: sizes.width,
     });
-  };
+  }, []);
   return (
     <div
       style={{
@@ -88,7 +88,6 @@ const Circle = (rest) => {
         onResize={onResize}
         handleSizes={sizes}
         shape={getImageUrl(shape.image)}
-
       >
         <div
           style={{
