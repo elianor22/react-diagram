@@ -17,9 +17,10 @@ export const createShape = (lastId, shapeData, position) => {
       data: {
         shapeId: shapeData.id,
         label: shapeData.label,
+        edgesPosition: shapeData.edgesPosition,
       },
       style: { width: 100, height: 100 },
-    }; 
+    };
   } else {
     return {
       id: newId(),
@@ -28,6 +29,7 @@ export const createShape = (lastId, shapeData, position) => {
       data: {
         shapeId: shapeData.id,
         label: shapeData.label,
+        edgesPosition: shapeData.edgesPosition,
       },
       style: { width: 180, height: 90 },
     };

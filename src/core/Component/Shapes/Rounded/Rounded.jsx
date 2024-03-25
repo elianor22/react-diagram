@@ -79,7 +79,6 @@ const Rounded = (rest) => {
     >
       <DefaultComponent
         selected={selected}
-        data={data}
         id={id}
         showToolbar={false}
         minHeight={90}
@@ -88,6 +87,7 @@ const Rounded = (rest) => {
         shape={getImageUrl(shape.image)}
         handleSizes={sizes}
         onResize={onResize}
+        edges={data.edgesPosition}
       >
         <div
           style={{

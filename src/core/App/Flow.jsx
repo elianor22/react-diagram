@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -29,6 +29,7 @@ import RoundedRectangle from "@core/Component/Shapes/RoundedRectangle/RoundedRec
 import { useAppFlow } from "@core/provider/useAppFlow";
 import Rounded from "@core/Component/Shapes/Rounded/Rounded";
 import { defaultShapes } from "@core/constants/defaultShape";
+import DownloadDiagram from "@core/Component/DownloadDiagram/DownloadDiagram";
 
 const nodeTypes = {
   rectangle: Rectangle,
@@ -43,29 +44,20 @@ const edgeTypes = {
 };
 
 // eslint-disable-next-line react/prop-types
-const App = ({ onChangeEdges, onChangeNodes }) => {
+const App = ({ onClickSave }) => {
   const { getNodes, getEdges } = useAppFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(getNodes());
   const [edges, setEdges, onEdgesChange] = useEdgesState(getEdges());
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, getNode } = useReactFlow();
   const edgeUpdateSuccessful = useRef(true);
-  console.log(edges)
-
-  // useEffect(() => {
-  //   const isNodesDragging = nodes.some((node) => node.dragging === true);
-  //   if (!isNodesDragging) {
-  //     onChangeNodes(nodes);
-  //   }
-  //   onChangeEdges(edges);
-  // }, [nodes, onChangeNodes, edges, onChangeEdges]);
 
   const onConnect = useCallback(
     (params) => {
       const { source, target, sourceHandle, targetHandle } = params;
       const sourceId = sourceHandle[0].toLowerCase();
       const targetId = targetHandle[0].toLowerCase();
-
+      const node = getNode(source);
       const id = `${sourceId}${source}-${targetId}${target}`;
       setEdges((els) =>
         addEdge(
@@ -73,16 +65,16 @@ const App = ({ onChangeEdges, onChangeNodes }) => {
             ...params,
             id,
             data: {
-              label: "",
+              label: node.data.shapeId === "diamond" ? "yes" : "",
             },
-            type: "line",
+            type: node.data.shapeId === "diamond" ? "line" : "smoothstep",
             ...defaultMarker,
           },
           els
         )
       );
     },
-    [setEdges]
+    [getNode, setEdges]
   );
 
   const onDragOver = useCallback((event) => {
@@ -91,9 +83,6 @@ const App = ({ onChangeEdges, onChangeNodes }) => {
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onNodeChanges = () => {
-    onChangeNodes(nodes);
-  };
 
   const onDrop = useCallback(
     (event) => {
@@ -132,13 +121,15 @@ const App = ({ onChangeEdges, onChangeNodes }) => {
       setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     }
 
-    console.log(edges);
     edgeUpdateSuccessful.current = true;
   }, []);
 
-  const onNodeDragStop = useCallback(() => {
-    // onNodeChanges();
-  }, [onNodeChanges]);
+  const onClickSaveDiagram = () => {
+    onClickSave({
+      nodes,
+      edges,
+    });
+  };
 
   return (
     <div className="app__flow" style={{ width: "100vw", height: "100vh" }}>
@@ -149,7 +140,6 @@ const App = ({ onChangeEdges, onChangeNodes }) => {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onNodeDragStop={onNodeDragStop}
         onConnect={onConnect}
         fitView
         fitViewOptions={{
@@ -167,6 +157,29 @@ const App = ({ onChangeEdges, onChangeNodes }) => {
         <Panel>
           <Menu />
         </Panel>
+        <Panel position="top-center">
+          <p
+            style={{
+              margin: 0,
+              marginRight: 2,
+            }}
+          >
+            This Project is Beta version
+            <br />
+            <span>big features for the next update!</span>
+          </p>
+        </Panel>
+        <Panel
+          position="top-right"
+          style={{
+            width: 200,
+            display: "flex",
+            gap: 10,
+          }}
+        >
+          <DownloadDiagram />
+          <button onClick={onClickSaveDiagram}>save</button>
+        </Panel>
         <Controls />
         <MiniMap />
         <EdgeText />
@@ -180,7 +193,7 @@ const Application = ({
   initialEdges,
   initialNodes,
   initialShapes,
-  onChangeNodes,
+  onClickSave,
 }) => {
   const shapes = [...defaultShapes, ...initialShapes];
   return (
@@ -193,7 +206,7 @@ const Application = ({
         <App
           initialEdges={initialEdges}
           initialNodes={initialNodes}
-          onChangeNodes={onChangeNodes}
+          onClickSave={onClickSave}
         />
       </ReactFlowProvider>
     </AppFlowProvider>
@@ -218,5 +231,6 @@ Application.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired
   ),
+  onClickSave: PropTypes.func,
 };
 export default Application;

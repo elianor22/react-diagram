@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const EdgeLine = ({ id, data, selected, ...props }) => {
   const [edgePath, labelX, labelY] = getSmoothStepPath(props);
+  const { markerEnd } = props;
   const { setEdges } = useReactFlow();
   const [newLabel, setNewLabel] = useState(data.label); // State untuk menyimpan label baru
 
@@ -33,7 +34,7 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
   };
   return (
     <>
-      <BaseEdge id={id} path={edgePath}markerEnd="animated" />
+      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
       <EdgeLabelRenderer>
         <div
           style={{
@@ -49,8 +50,7 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
               <Panel
                 style={{
                   margin: 0,
-                  transform: 'translate(-50%,-50%)'
-                  ,
+                  transform: "translate(-50%,-50%)",
                 }}
               >
                 <input
@@ -81,5 +81,6 @@ EdgeLine.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   data: PropTypes.object,
   selected: PropTypes.bool,
+  markerEnd: PropTypes.string,
 };
 export default EdgeLine;

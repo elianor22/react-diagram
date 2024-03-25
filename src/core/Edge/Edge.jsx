@@ -2,13 +2,27 @@ import PropTypes from "prop-types";
 import { Handle } from "reactflow";
 import { Position } from "../utils/position";
 
-const Edge = ({ children }) => {
+const Edge = ({ edges, children }) => {
+  const getEdges = () => {
+    if (Array.isArray(edges)) {
+      if (edges.includes("all")) {
+        return Object.keys(Position);
+      } else {
+        const toUpper = edges.map((ed) => ed.charAt(0).toUpperCase() + ed.slice(1));
+        return toUpper;
+      }
+    }
+    else{
+      throw new Error("edges must be an array")
+    }
+  };
   return (
     <>
       {children}
-      {Object.keys(Position).map((edge) => {
+      {getEdges().map((edge) => {
         return (
           <Handle
+            className="node__dot"
             key={edge}
             id={edge}
             position={Position[edge]}
@@ -22,9 +36,12 @@ const Edge = ({ children }) => {
     </>
   );
 };
-
+Edge.defaultProps = {
+  edges: ["all"],
+};
 Edge.propTypes = {
   children: PropTypes.element.isRequired,
+  edges: PropTypes.array,
 };
 
 export default Edge;

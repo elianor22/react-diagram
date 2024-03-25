@@ -15,11 +15,12 @@ const DefaultComponent = ({
   shape,
   onResize,
   handleSizes,
+  edges,
 }) => {
   return (
     <>
       {showToolbar && <Toolbar selected={selected} />}
-      <Edge>
+      <Edge edges={edges}>
         <div
           style={{
             height: "100%",
@@ -66,6 +67,8 @@ DefaultComponent.propTypes = {
   }),
   onResize: PropTypes.func,
   shape: PropTypes.string,
+  edges: PropTypes.array,
+  data: PropTypes.object,
 };
 
 export default DefaultComponent;
