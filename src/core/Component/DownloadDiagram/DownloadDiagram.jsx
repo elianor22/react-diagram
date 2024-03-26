@@ -7,7 +7,7 @@ function downloadImage(dataUrl) {
   a.setAttribute("download", "Diagram.jpeg");
   a.setAttribute("href", dataUrl);
   a.click();
-  
+
   const nodeDot = document.querySelectorAll(".react-flow__handle");
   nodeDot.forEach((node) => {
     node.classList.remove("hide");

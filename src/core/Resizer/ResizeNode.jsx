@@ -31,7 +31,7 @@ const ResizeNode = ({
         className={styles.node}
         style={{
           borderRadius: type == "circle" ? "100%" : "0px",
-          backgroundImage: `url(${getImageUrl(shape)})`,
+          backgroundImage: `url("${getImageUrl(shape)}")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: `${sizes.width}px ${sizes.height}px`,
           height: sizes.height + "px",
