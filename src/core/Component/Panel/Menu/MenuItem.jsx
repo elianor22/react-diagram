@@ -50,7 +50,7 @@ const MenuItem = ({ shape, onDragStart }) => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
           position: "relative",
-          backgroundImage: `url(${getImageUrl(shape.image)})`,
+          backgroundImage: `url("${getImageUrl(shape.image)}")`,
         }}
       >
         {shape.label}
