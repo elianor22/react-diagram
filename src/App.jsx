@@ -48,6 +48,11 @@ function App() {
     });
 
     console.log(newPaylaod);
+    return {
+      nodes,
+      edges,
+      roleDetail: newPaylaod,
+    };
   };
 
   return (
