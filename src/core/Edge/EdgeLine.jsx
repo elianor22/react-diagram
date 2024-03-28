@@ -6,13 +6,16 @@ import {
   Panel,
 } from "reactflow";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const diamondMsg = ["YES", "NO"];
 
 const EdgeLine = ({ id, data, selected, ...props }) => {
   const [edgePath, labelX, labelY] = getSmoothStepPath(props);
   const { markerEnd } = props;
   const { setEdges } = useReactFlow();
-  const [newLabel, setNewLabel] = useState(data.label); // State untuk menyimpan label baru
+  const [newLabel, setNewLabel] = useState(data.label);
+  const [isError, setIsError] = useState(false);
 
   const handleChangeLabel = (e) => {
     setNewLabel(e.target.value);
@@ -24,6 +27,7 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
           return {
             ...edg,
             data: {
+              ...data,
               label: newLabel,
             },
           };
@@ -32,6 +36,17 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (newLabel) {
+      if (!diamondMsg.includes(newLabel.toUpperCase())) {
+        setIsError(true);
+      }
+    }
+    return () => {
+      setIsError(false);
+    };
+  }, [newLabel]);
   return (
     <>
       <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
@@ -53,24 +68,64 @@ const EdgeLine = ({ id, data, selected, ...props }) => {
                   transform: "translate(-50%,-50%)",
                 }}
               >
-                <input
-                  value={newLabel} // Menggunakan nilai label baru dari state
-                  onChange={handleChangeLabel}
-                  autoFocus
-                  onKeyDown={(e) => {
-                    if (e.code === "Enter") {
-                      e.preventDefault();
-                      handleSaveLabel();
-                    }
-
-                    handleChangeLabel(e);
+                <div
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
-                  onBlur={handleSaveLabel}
-                />
+                >
+                  <input
+                    value={newLabel} // Menggunakan nilai label baru dari state
+                    onChange={handleChangeLabel}
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.code === "Enter") {
+                        e.preventDefault();
+                        handleSaveLabel();
+                      }
+
+                      handleChangeLabel(e);
+                    }}
+                    onBlur={handleSaveLabel}
+                  />
+                  {isError && (
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "#d62626",
+                      }}
+                    >
+                      Only &ldquo;yes&ldquo; or &ldquo;No&ldquo;
+                    </span>
+                  )}
+                </div>
               </Panel>
             </>
           ) : (
-            <span className="label_line">{data.label}</span>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span className="label_line">{data.label}</span>
+              {!diamondMsg.includes(newLabel.toUpperCase()) && (
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: "#d62626",
+                    position: "absolute",
+                    bottom: -10,
+                    minWidth: "94px",
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  Only &ldquo;yes&ldquo; or &ldquo;No&ldquo;
+                </span>
+              )}
+            </div>
           )}
         </div>
       </EdgeLabelRenderer>

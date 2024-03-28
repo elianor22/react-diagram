@@ -57,7 +57,10 @@ const App = ({ onClickSave }) => {
       const { source, target, sourceHandle, targetHandle } = params;
       const sourceId = sourceHandle[0].toLowerCase();
       const targetId = targetHandle[0].toLowerCase();
-      const node = getNode(source);
+      const nodeSource = getNode(source);
+      const nodeTarget = getNode(target);
+
+      console.log(nodeSource);
       const id = `${sourceId}${source}-${targetId}${target}`;
       setEdges((els) =>
         addEdge(
@@ -65,9 +68,20 @@ const App = ({ onClickSave }) => {
             ...params,
             id,
             data: {
-              label: node.data.shapeId === "diamond" ? "yes" : "",
+              label: nodeSource.data.shapeId === "diamond" ? "yes" : "",
+              source: {
+                id: nodeSource.id,
+                shapeId: nodeSource.data.shapeId,
+                label: nodeSource.data.label,
+              },
+              target: {
+                id: nodeTarget.id,
+                shapeId: nodeTarget.data.shapeId,
+                label: nodeTarget.data.label,
+              },
+              type: "next",
             },
-            type: node.data.shapeId === "diamond" ? "line" : "smoothstep",
+            type: nodeSource.data.shapeId === "diamond" ? "line" : "smoothstep",
             ...defaultMarker,
           },
           els
