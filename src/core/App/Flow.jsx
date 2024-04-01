@@ -96,8 +96,6 @@ const App = ({ onClickSave }) => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
@@ -124,19 +122,25 @@ const App = ({ onClickSave }) => {
     edgeUpdateSuccessful.current = false;
   }, []);
 
-  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
-    console.log(newConnection);
-    edgeUpdateSuccessful.current = true;
-    setEdges((els) => updateEdge(oldEdge, newConnection, els));
-  }, []);
+  const onEdgeUpdate = useCallback(
+    (oldEdge, newConnection) => {
+      console.log(newConnection);
+      edgeUpdateSuccessful.current = true;
+      setEdges((els) => updateEdge(oldEdge, newConnection, els));
+    },
+    [setEdges]
+  );
 
-  const onEdgeUpdateEnd = useCallback((_, edge) => {
-    if (!edgeUpdateSuccessful.current) {
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-    }
+  const onEdgeUpdateEnd = useCallback(
+    (_, edge) => {
+      if (!edgeUpdateSuccessful.current) {
+        setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+      }
 
-    edgeUpdateSuccessful.current = true;
-  }, []);
+      edgeUpdateSuccessful.current = true;
+    },
+    [setEdges]
+  );
 
   const onClickSaveDiagram = () => {
     onClickSave({

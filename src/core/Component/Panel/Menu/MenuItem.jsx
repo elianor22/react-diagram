@@ -1,7 +1,6 @@
 import { nodesTypes } from "@core/utils/nodesTypes";
 import PropTypes from "prop-types";
 
-import { getImageUrl } from "@core/utils/getUrlImage";
 const MenuItem = ({ shape, onDragStart }) => {
   const getStyles = () => {
     switch (shape.type) {
@@ -50,7 +49,7 @@ const MenuItem = ({ shape, onDragStart }) => {
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
           position: "relative",
-          backgroundImage: `url("${getImageUrl(shape.image)}")`,
+          backgroundImage: `url("${shape.image}")`,
         }}
       >
         {shape.label}

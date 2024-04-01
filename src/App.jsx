@@ -47,7 +47,6 @@ function App() {
       return newEdges;
     });
 
-    console.log(newPaylaod);
     return {
       nodes,
       edges,

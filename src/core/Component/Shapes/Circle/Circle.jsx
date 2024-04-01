@@ -59,13 +59,15 @@ const Circle = (rest) => {
         return node;
       })
     );
-  }, []);
+  }, [id, setNodes]);
+
   const onResize = useCallback((_, sizes) => {
     setSizes({
       width: sizes.width,
       height: sizes.width,
     });
   }, []);
+  
   return (
     <div
       style={{

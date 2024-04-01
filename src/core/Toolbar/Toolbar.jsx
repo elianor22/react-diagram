@@ -20,7 +20,7 @@ const Toolbar = ({ selected }) => {
       return node;
     });
     flow.setNodes(updatedNodes);
-  }, []);
+  }, [flow, nodeId, nodes]);
 
   return (
     <>

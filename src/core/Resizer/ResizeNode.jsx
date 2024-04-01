@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import styles from "./style.module.css";
 import { memo, useMemo } from "react";
-import { getImageUrl } from "@core/utils/getUrlImage";
 
 const ResizeNode = ({
   selected,
@@ -31,7 +30,7 @@ const ResizeNode = ({
         className={styles.node}
         style={{
           borderRadius: type == "circle" ? "100%" : "0px",
-          backgroundImage: `url("${getImageUrl(shape)}")`,
+          backgroundImage: `url("${shape}")`,
           backgroundRepeat: "no-repeat",
           backgroundSize: `${sizes.width}px ${sizes.height}px`,
           height: sizes.height + "px",
