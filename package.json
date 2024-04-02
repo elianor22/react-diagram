@@ -17,6 +17,7 @@
     "reactflow": "^11.10.4"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.24.1",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-react": "^7.24.1",
     "@testing-library/jest-dom": "^6.4.2",

@@ -5,6 +5,9 @@
       "@core/*": [
         "src/core/*"
       ]
-    }
-  }
+    },
+    "plugins": [
+      // "babel-plugin-transform-import-meta"
+    ]
+  },
 }
