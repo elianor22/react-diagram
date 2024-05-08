@@ -4,4 +4,5 @@ export const nodesTypes = {
   square: "square",
   "rounded-rectangle": "rounded-rectangle",
   rounded: "rounded",
+  diamond: "diamond",
 };

@@ -56,7 +56,7 @@ const Square = (rest) => {
         return nd;
       })
     );
-  }, []);
+  }, [id, setNodes]);
 
   const onResize = useCallback((_, sizes) => {
     setSizes({
