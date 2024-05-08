@@ -90,11 +90,12 @@ const RoundedRectangle = (rest) => {
 
       >
         <div
-          style={{
+           style={{
             width: "100%",
-            display: "block",
             height: "100%",
-            
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           {!clickEdit ? (

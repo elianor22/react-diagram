@@ -18,6 +18,8 @@ const Rectangle = (rest) => {
     width: 180,
     height: 90,
   });
+
+  console.log(shape)
   const onResizeEnd = useCallback((_, sizes) => {
     const { width, x, y } = sizes;
     setNodes((nds) =>
@@ -31,15 +33,15 @@ const Rectangle = (rest) => {
             },
             style: {
               width,
-              height: width,
+              height: Math.floor(width / 2),
             },
           };
         }
         return nd;
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id, setNodes]);
+
 
   const updateChange = (e) => {
     const val = e.target.value;
@@ -59,12 +61,12 @@ const Rectangle = (rest) => {
       })
     );
   };
-  const onResize = (_, sizes) => {
+  const onResize = useCallback((_, sizes) => {
     setSizes({
       width: sizes.width,
-      height: sizes.width,
+      height: Math.floor(sizes.width / 2),
     });
-  };
+  }, []);
   return (
     <div
       style={{
@@ -87,10 +89,12 @@ const Rectangle = (rest) => {
         shape={getImageUrl(shape.image)}
       >
         <div
-          style={{
+           style={{
             width: "100%",
-            display: "block",
             height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           {!clickEdit ? (
