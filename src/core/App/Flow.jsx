@@ -52,6 +52,7 @@ const App = ({ onClickSave }) => {
   const { screenToFlowPosition, getNode } = useReactFlow();
   const edgeUpdateSuccessful = useRef(true);
 
+console.log('changing')
   const onConnect = useCallback(
     (params) => {
       const { source, target, sourceHandle, targetHandle } = params;
@@ -172,7 +173,7 @@ const App = ({ onClickSave }) => {
         onDragOver={onDragOver}
         deleteKeyCode="Delete"
       >
-        <Panel>
+        <Panel position="top-left menu__panel">
           <Menu />
         </Panel>
         <Panel position="top-center">

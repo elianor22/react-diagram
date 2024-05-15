@@ -1,0 +1,150 @@
+.react-flow__controls {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+p {
+    color: #000;
+}
+
+
+
+.app__flow {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+
+
+    & .description {
+        margin-bottom: 10px;
+    }
+
+    .app__flow__node {
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: grab;
+    }
+
+    & .reactflow-wrapper {
+        flex-grow: 1;
+        height: 100%;
+    }
+
+    .selectall {
+        margin-top: 10px;
+    }
+
+    .menu__panel {
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: 0px 4px 1rem rgb(207, 207, 207);
+        overflow: hidden;
+        padding: 1rem 0;
+        border-radius: 20px;
+        background-color: #fff;
+
+        & .menu__panel__container {
+            position: relative;
+            border-right: 1px solid #eee;
+            padding: 2px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            min-width: 56px;
+
+
+            & .menu__item {
+                width: 48px;
+                height: 48px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                color: rgb(192, 192, 192);
+
+                &:hover {
+                    color: #fff;
+
+                    background-color: #5e72e483;
+
+                    & .circle {
+                        border-color: #fff;
+                    }
+
+                    & .arrow__thumb {
+                        color: #fff;
+                    }
+                }
+
+                & .circle {
+                    width: 32px;
+                    height: 32px;
+                    border: 2px solid rgb(192, 192, 192);
+                    border-radius: 100px;
+
+                }
+
+                & .arrow__thumb {
+                    position: absolute;
+                    right: -3px;
+                    top: -3px;
+                    font-size: 1rem;
+                    transform: rotate(-40deg);
+                    color: rgb(192, 192, 192);
+
+
+                }
+            }
+
+            .panel__shape {
+                background-color: #fff;
+                box-shadow: 0px 4px 1rem rgb(207, 207, 207);
+                min-height: 100px;
+
+            }
+        }
+
+        .active {
+            background-color: #5e72e483 !important;
+            color: #fff !important;
+
+            & .circle {
+                border-color: #fff !important;
+            }
+
+            & .arrow__thumb {
+                color: #fff !important;
+            }
+        }
+    }
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .app__flow {
+        flex-direction: row;
+    }
+
+    .app__flow aside {
+        width: 20%;
+        max-width: 250px;
+    }
+}
+
+.label_line {
+    background-color: #fff;
+}
+
+.hide {
+    display: none
+}
